@@ -1,6 +1,5 @@
 
 # About the project
 
-
 This is my diary of the course Introduction to Open Data Science. The course's goal is to introduce ourselves to open science, open data, and open research tools, so that we are able to make use of access to data by visualizing and analyzing it among other thigs. The tools that we are going to use here are R, RStudio and Github. This is an R markdown (.Rmd) file and this is my [Github repository](https://github.com/AliisaK/IODS-project). 
 
