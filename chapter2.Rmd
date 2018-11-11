@@ -1,7 +1,43 @@
-# Insert chapter 2 title here
+---
+title: "Second exercise"
+author: "Aliisa Koivisto"
+output: github_document
 
-*Describe the work you have done this week and summarize your learning.*
+---
 
-- Describe your work and results clearly. 
-- Assume the reader has an introductory course level understanding of writing and reading R code as well as statistical methods
-- Assume the reader has no previous knowledge of your data or the more advanced methods you are using  
+# Regression and model validation
+
+This week we learned the basic first steps of analyzing data
+
+First lets download the data and explore the dimension and structure of it
+```{r}
+learning14 <- read.csv("data/learning2014.csv")
+dim(learning14)
+str(learning14)
+```
+That is we have  7 variables: "gender", "age",  "attitude", "deep", "stra", "surf" and  "points" in the data. Next lets visualize the data
+```{r}
+library(ggplot2)
+p1 <- ggplot(learning14, aes(x = Attitude, col =gender, y = Points))
+p2 <- p1 + geom_point()
+p3 <- p2 + geom_smooth(method = "lm")
+p4 <- p3 + ggtitle("Student's attitude versus exam points" )
+p4
+summary(learning14)
+pairs(learning14[-1], col = learning14$gender)
+library(GGally)
+library(ggplot2)
+p <- ggpairs(learning14, mapping = aes(col = gender, alpha = 0.3), lower = list(combo = wrap("facethist", bins = 20)))
+p
+```
+Students attitudes and exam performance seem to correlate strongly. This correlation might be even stronger for boys. There is double the amount of girls in comparison to boys. The age range is wide between 17 and 55. Lets study the connections further
+```{r}
+my_model <- lm(Points ~ Attitude + gender + Age, data = learning14)
+summary(my_model)
+```
+The parameters of gender and Age do not have a statistically significant relationship, thus we will drop them from the model.
+```{r}
+my_model <- lm(Points ~ Attitude , data = learning14)
+summary(my_model)
+```
+The interpretation of the final model is, that the expected value of points, whenattitude is known: 11.64+0.35*"Attitude". The R-squared however tells that,this model explains only 19 percent of the dependent variable Points. Thus, there is a lot affecting the value that is not included in the model.
